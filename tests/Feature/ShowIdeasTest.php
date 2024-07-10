@@ -108,8 +108,8 @@ class ShowIdeasTest extends TestCase
         $ideaEleven->save();
 
         $response = $this->get(route('idea.index'));
-        $response->assertSee($ideaOne->title);
-        $response->assertDontSee($ideaEleven->title);
+        $response->assertDontSee($ideaOne->title);
+        $response->assertSee($ideaEleven->title);
         $response->assertSee('<div class="bg-gray-200 text-xs font-bold uppercase leading-none rounded-full text-center w-28 h-7 py-2 px-4">Open </div>', false);
 
     }
