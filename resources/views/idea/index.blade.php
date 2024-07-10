@@ -28,7 +28,16 @@
 
     <div class="ideas-container space-y-6 my-6">
         @foreach ($ideas as $idea)
-            <div class="idea-container bg-white rounded-xl flex hover:shadow-card cursor-pointer transition duration-150 ease-in">
+            <div 
+                x-data
+                @click = "
+                    const target = $event.target.tagName.toLowerCase()
+                    const ignores = ['button', 'svg', 'path', 'a']
+                    if (! ignores.includes(target)) {
+                        $event.target.closest('.idea-container').querySelector('.idea-link').click()
+                    }
+                "
+                class="idea-container bg-white rounded-xl flex hover:shadow-card cursor-pointer transition duration-150 ease-in">
                 <div class="hidden md:block border-r border-gray-100 px-5 py-8">
                     <div class="text-center">
                         <div class="font-semibold text-2xl">12</div>
@@ -44,12 +53,12 @@
                 <div class="flex flex-col md:flex-row flex-1 px-2 py-6">
                     <div class="flex-none mx-2 md:mx-0">
                         <a href="" >
-                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="avatar" class="w-14 h-14 rounded-xl">
+                            <img src="{{ $idea->user->getAvatar()}}" alt="avatar" class="w-14 h-14 rounded-xl">
                         </a>
                     </div>
                     <div class="mx-2 md:mx-4 w-full flex flex-col justify-between">
                         <h4 class="text-xl font-semibold mt-2 md:mt-0">
-                            <a href="{{ route('idea.show', $idea )}}" class="hover:underline">{{$idea->title}}</a>
+                            <a href="{{ route('idea.show', $idea )}}" class="idea-link hover:underline">{{$idea->title}}</a>
                         </h4>
                         <div class="text-gray-600 mt-3 line-clamp-3">
                             {{ $idea->description}}
