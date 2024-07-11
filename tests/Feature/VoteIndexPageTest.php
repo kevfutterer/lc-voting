@@ -100,4 +100,38 @@ class VoteIndexPageTest extends TestCase
         ])
             ->assertSet('votesCount', 5);
     }
+
+    public function test_user_who_is_logged_in_shows_voted_if_idea_already_voted_for_2(): void
+    {
+        $user = User::factory()->create();
+
+        $statusOpen = Status::factory()->create(['name' => 'Open', 'classes' => 'bg-gray-200']);
+
+        $category = Category::factory()->create([
+            'name' => 'Category 1',
+        ]);
+
+        $idea = Idea::factory()->create([
+            'user_id' => $user->id,
+            'title' => 'My first idea',
+            'category_id' => $category->id,
+            'status_id' => $statusOpen->id,
+            'description' => 'Description of first idea',
+        ]);
+
+        Vote::factory()->create([
+            'idea_id' => $idea->id,
+            'user_id' => $user->id,
+        ]);
+
+        $respone = $this->actingAs($user)->get(route('idea.index'));
+        $ideaWithVotes = $respone['ideas']->items()[0];
+
+        Livewire::actingAs($user)
+            ->test(IdeaIndex::class, [
+                'idea' => $ideaWithVotes,
+                'votesCount' => 5,
+            ])
+            ->assertSet('hasVoted', true);
+    }
 }
