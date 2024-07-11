@@ -129,4 +129,69 @@ class VoteShowPageTest extends TestCase
             ])
             ->assertSet('hasVoted', true);
     }
+
+    public function test_user_who_is_not_logged_in_is_redirected_to_login_page_when_trying_to_vote(): void
+    {
+        $user = User::factory()->create();
+
+        $statusOpen = Status::factory()->create(['name' => 'Open', 'classes' => 'bg-gray-200']);
+
+        $category = Category::factory()->create([
+            'name' => 'Category 1',
+        ]);
+
+        $idea = Idea::factory()->create([
+            'user_id' => $user->id,
+            'title' => 'My first idea',
+            'category_id' => $category->id,
+            'status_id' => $statusOpen->id,
+            'description' => 'Description of first idea',
+        ]);
+
+        Livewire::test(IdeaShow::class, [
+                'idea' => $idea,
+                'votesCount' => 5,
+            ])
+            ->call('vote')
+            ->assertRedirect(route('login'));
+    }
+
+    public function test_user_who_is_logged_in_can_vote_for_idea(): void
+    {
+        $user = User::factory()->create();
+
+        $statusOpen = Status::factory()->create(['name' => 'Open', 'classes' => 'bg-gray-200']);
+
+        $category = Category::factory()->create([
+            'name' => 'Category 1',
+        ]);
+
+        $idea = Idea::factory()->create([
+            'user_id' => $user->id,
+            'title' => 'My first idea',
+            'category_id' => $category->id,
+            'status_id' => $statusOpen->id,
+            'description' => 'Description of first idea',
+        ]);
+
+        $this->assertDatabaseMissing('votes', [
+            'user_id' => $user->id,
+            'idea_id' => $idea->id,
+        ]);
+
+        Livewire::actingAs($user)
+            ->test(IdeaShow::class, [
+                'idea' => $idea,
+                'votesCount' => 5,
+            ])
+            ->call('vote')
+            ->assertSet('votesCount', 6)
+            ->assertSet('hasVoted', true)
+            ->assertSee('Voted');
+        
+        $this->assertDatabaseHas('votes', [
+            'user_id' => $user->id,
+            'idea_id' => $idea->id,
+        ]);
+    }
 }
