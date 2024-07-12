@@ -10,6 +10,7 @@ use App\Models\Status;
 use Livewire\Livewire;
 use App\Models\Category;
 use App\Livewire\IdeaIndex;
+use App\Livewire\IdeasIndex;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -41,7 +42,7 @@ class VoteIndexPageTest extends TestCase
             ->assertSeeLivewire('idea-index');
     }
 
-    public function test_index_page_correctly_recieves_votes_count(): void
+    public function test_ideas_index_livewire_component_correctly_recieves_votes_count(): void
     {
         $user = User::factory()->create();
         $userB = User::factory()->create();
@@ -70,7 +71,7 @@ class VoteIndexPageTest extends TestCase
             'user_id' => $userB->id,
         ]);
 
-        $this->get(route('idea.index', $idea))
+        Livewire::test(IdeasIndex::class)
             ->assertViewHas('ideas', function($ideas) {
                 return $ideas->first()->votes_count == 2;
             });
@@ -124,12 +125,12 @@ class VoteIndexPageTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        $respone = $this->actingAs($user)->get(route('idea.index'));
-        $ideaWithVotes = $respone['ideas']->items()[0];
+        $idea->votes_count = 1;
+        $idea->voted_by_user = 1;
 
         Livewire::actingAs($user)
             ->test(IdeaIndex::class, [
-                'idea' => $ideaWithVotes,
+                'idea' => $idea,
                 'votesCount' => 5,
             ])
             ->assertSet('hasVoted', true);
@@ -195,6 +196,50 @@ class VoteIndexPageTest extends TestCase
             ->assertSee('Voted');
         
         $this->assertDatabaseHas('votes', [
+            'user_id' => $user->id,
+            'idea_id' => $idea->id,
+        ]);
+    }
+
+    public function test_user_who_is_logged_in_can_remove_vote_from_idea(): void
+    {
+        $user = User::factory()->create();
+
+        $statusOpen = Status::factory()->create(['name' => 'Open', 'classes' => 'bg-gray-200']);
+
+        $category = Category::factory()->create([
+            'name' => 'Category 1',
+        ]);
+
+        $idea = Idea::factory()->create([
+            'user_id' => $user->id,
+            'title' => 'My first idea',
+            'category_id' => $category->id,
+            'status_id' => $statusOpen->id,
+            'description' => 'Description of first idea',
+        ]);
+
+        Vote::factory()->create([
+            'idea_id' => $idea->id,
+            'user_id' => $user->id,
+        ]);
+
+        $idea->votes_count = 1;
+        $idea->voted_by_user = 1;
+
+
+        Livewire::actingAs($user)
+            ->test(IdeaIndex::class, [
+                'idea' => $idea,
+                'votesCount' => 5,
+            ])
+            ->call('vote')
+            ->assertSet('votesCount', 4)
+            ->assertSet('hasVoted', false)
+            ->assertSee('Vote')
+            ->assertDontSee('Voted');
+        
+        $this->assertDatabaseMissing('votes', [
             'user_id' => $user->id,
             'idea_id' => $idea->id,
         ]);
