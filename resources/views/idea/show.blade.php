@@ -1,6 +1,6 @@
 <x-app-layout>
     <div>
-        <a href="/" class="flex items-center font-semibold hover:underline">
+        <a href="{{ $backUrl}}" class="flex items-center font-semibold hover:underline">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
               </svg>              
@@ -32,7 +32,6 @@
                             <div class="font-bold text-gray-900">John Doe</div>
                             <div>&bull;</div>
                             <div>10 hours ago</div>
-                            
                         </div>
                         <div 
                             x-data="{ isOpen: false }"
