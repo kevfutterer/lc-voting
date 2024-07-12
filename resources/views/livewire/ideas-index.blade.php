@@ -1,11 +1,11 @@
 <div>
     <div class="filters flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-6">
         <div class="w-full md:w-1/3">
-            <select name="category" id="category" class="w-full rounded-xl px-4 py-2 border-none">
-                <option value="category one">Category One</option>
-                <option value="category two">Category two</option>
-                <option value="category one">Category One</option>
-                <option value="category one">Category One</option>
+            <select wire:model.live="category" name="category" id="category" class="w-full rounded-xl px-4 py-2 border-none">
+                <option value="All Categories">All Categories</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->name}}">{{ $category->name}}</option>
+                @endforeach
             </select>
         </div>
         <div class="w-full md:w-1/3">
