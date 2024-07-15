@@ -20,10 +20,6 @@ class CategoryFiltersTest extends TestCase
      */
     public function test_selecting_a_category_filter_correctly(): void
     {
-        $user = User::factory()->create();
-
-        $statusOpen = Status::factory()->create(['name' => 'Open']);
-
         $categoryOne = Category::factory()->create([
             'name' => 'Category 1',
         ]);
@@ -33,27 +29,15 @@ class CategoryFiltersTest extends TestCase
         ]);
 
         $ideaOne = Idea::factory()->create([
-            'user_id' => $user->id,
-            'title' => 'My first idea',
             'category_id' => $categoryOne->id,
-            'status_id' => $statusOpen->id,
-            'description' => 'Description of first idea',
         ]);
 
         $ideaTwo = Idea::factory()->create([
-            'user_id' => $user->id,
-            'title' => 'My first idea',
             'category_id' => $categoryOne->id,
-            'status_id' => $statusOpen->id,
-            'description' => 'Description of first idea',
         ]);
 
         $ideaThree = Idea::factory()->create([
-            'user_id' => $user->id,
-            'title' => 'My first idea',
             'category_id' => $categoryTwo->id,
-            'status_id' => $statusOpen->id,
-            'description' => 'Description of first idea',
         ]);
 
         Livewire::test(IdeasIndex::class)
