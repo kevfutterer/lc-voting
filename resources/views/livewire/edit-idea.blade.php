@@ -4,6 +4,7 @@
     x-show = "isOpen"
     @custom-show-edit-modal.window = "isOpen = true"
     @keydown.escape.window = "isOpen = false"
+    x-init="$wire.on('ideaWasUpdated', () => {isOpen = false})"
     class="relative z-10" 
     aria-labelledby="modal-title" role="dialog" 
     aria-modal="true">
@@ -18,7 +19,7 @@
         x-show.transition.origin.bottom.duration.400ms = "isOpen"
         class="modal fixed inset-0 z-10 w-screen overflow-y-auto">
       <div class="flex flex-col min-h-full items-center justify-end p-4 text-center sm:items-center sm:p-0">
-        <div class="relative transform overflow-hidden rounded-tl-xl rounded-tr-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+        <div class="relative transform overflow-hidden rounded-tl-xl rounded-tr-xl bg-white text-left shadow-xl transition-all  sm:w-full sm:max-w-lg">
           <div class="absolute top-0 right-0 pt-4 pr-4">
             <button 
                 @click = "isOpen = false"
@@ -32,7 +33,7 @@
             <h3 class="text-center text-lg font-medium text-gray-900">Edit Idea</h3>
             <p class="text-xs text-center text-gray-500 mt-4">You have one hour to edit your idea from the time you created it</p>
 
-            <form wire:submit.prevent="createIdea" action="" method="POST" class="space-y-4 px-4 py-6">
+            <form wire:submit.prevent="updateIdea" action="" method="POST" class="space-y-4 px-4 py-6">
                 <div>
                     <input 
                         wire:model.defer="title" 
@@ -52,7 +53,9 @@
                         name="category_add" 
                         id="category_add" 
                         class="text-sm bg-gray-100 w-full rounded-xl px-4 py-2 border-none">
-                        <option value="id">Category 1</option>
+                        @foreach ($categories as $category)
+                            <option value="{{$category->id}}">{{ $category->name}} </option>
+                        @endforeach
                     </select>
                     @error('category')
                         <p class="text-red text-xs mt-1">
@@ -84,7 +87,7 @@
                     </button>
                     <button type="submit"
                         class="flex items-center justify-center w-1/2 h-11 text-xs bg-blue font-semibold rounded-full border text-white border-blue hover:bg-blue-hover transition duration-150 ease-in px-2 py-2" >
-                        <span class="ml-1">Submit</span>
+                        <span class="ml-1">Update</span>
                     </button>
                 </div>
             
