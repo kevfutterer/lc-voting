@@ -1,14 +1,28 @@
-<div class="relative z-10" 
+<div 
+    x-cloak
+    x-data="{isOpen: false}"
+    x-show = "isOpen"
+    @custom-show-edit-modal.window = "isOpen = true"
+    @keydown.escape.window = "isOpen = false"
+    class="relative z-10" 
     aria-labelledby="modal-title" role="dialog" 
     aria-modal="true">
 
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+    <div 
+        x-show.transition.opacity = "isOpen"
+        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
+        aria-hidden="true">
+    </div>
 
-    <div class="modal fixed inset-0 z-10 w-screen overflow-y-auto">
+    <div 
+        x-show.transition.origin.bottom.duration.400ms = "isOpen"
+        class="modal fixed inset-0 z-10 w-screen overflow-y-auto">
       <div class="flex flex-col min-h-full items-center justify-end p-4 text-center sm:items-center sm:p-0">
         <div class="relative transform overflow-hidden rounded-tl-xl rounded-tr-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
           <div class="absolute top-0 right-0 pt-4 pr-4">
-            <button class="text-gray-400 hover:text-gray-500 ">
+            <button 
+                @click = "isOpen = false"
+                class="text-gray-400 hover:text-gray-500 ">
                 <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                 </svg>                  
