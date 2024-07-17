@@ -5,6 +5,8 @@ namespace App\Livewire;
 use App\Models\Idea;
 use Livewire\Component;
 use App\Models\Category;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class EditIdea extends Component
 {
@@ -37,7 +39,13 @@ class EditIdea extends Component
     public function updateIdea()
     {
         $this->validate();
-        
+
+        if (auth()->guest()) {
+            abort(Response::HTTP_FORBIDDEN);
+        }
+
+        $this->authorize('update', $this->idea);
+
         $this->idea->update([
             'title' => $this->title,
             'category_id' => $this->category,
