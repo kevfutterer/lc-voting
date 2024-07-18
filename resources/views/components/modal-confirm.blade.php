@@ -1,19 +1,19 @@
-<x-modal-confirm
-    event-to-open-modal="custom-show-not-spam-modal"
-    event-to-close-modal="ideaWasMarkedAsNotSpam"
-    modal-title="Reset Spam Counter<"
-    modal-description="Are you sure you want to reset the spam counter of this idea?"
-    modal-confirm-button-text="Reset Spam Counter"
-    wire-click="markAsNotSpam"
-/>
+@props([
+    'event-to-open-modal',
+    'event-to-close-modal',
+    'modal-title',
+    'modal-description',
+    'modal-confirm-button-text',
+    'wire-click'
+])
 
-{{-- <div 
+<div 
     x-cloak
     x-data="{isOpen: false}"
     x-show = "isOpen"
-    @custom-show-not-spam-modal.window = "isOpen = true"
+    {{ '@' . $eventToOpenModal}}.window = "isOpen = true"
     @keydown.escape.window = "isOpen = false"
-    x-init="$wire.on('ideaWasMarkedAsNotSpam', () => {isOpen = false})"
+    x-init="$wire.on('{{ $eventToCloseModal}}', () => {isOpen = false})"
     class="relative z-10" 
     aria-labelledby="modal-title" 
     role="dialog" aria-modal="true">
@@ -37,20 +37,20 @@
                 </svg>
               </div>
               <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Reset Spam Counter</h3>
+                <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">{{ $modalTitle}}</h3>
                 <div class="mt-2">
-                  <p class="text-sm text-gray-500">Are you sure you want to reset the spam counter of this idea?</p>
+                  <p class="text-sm text-gray-500">{{ $modalDescription}}</p>
                 </div>
               </div>
             </div>
           </div>
           <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
             <button 
-                wire:click="markAsNotSpam"
+                wire:click="{{$wireClick}}"
                 type="button" 
                 class="inline-flex w-full justify-center rounded-full bg-blue px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue sm:ml-3 sm:w-auto"
                 >
-                Reset Spam Counter
+                {{ $modalConfirmButtonText}}
             </button>
             <button 
                 @click="isOpen = false"
@@ -63,5 +63,5 @@
         </div>
       </div>
     </div>
-  </div> --}}
+  </div>
   

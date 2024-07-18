@@ -1,4 +1,13 @@
-<div 
+<x-modal-confirm
+    event-to-open-modal="custom-show-mark-modal"
+    event-to-close-modal="ideaWasMarkedAsSpam"
+    modal-title="Mark Idea As Spam"
+    modal-description="Are you sure you want to mark this idea as spam?"
+    modal-confirm-button-text="Mark as Spam"
+    wire-click="markAsSpam"
+/>
+
+{{-- <div 
     x-cloak
     x-data="{isOpen: false}"
     x-show = "isOpen"
@@ -54,5 +63,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
   
