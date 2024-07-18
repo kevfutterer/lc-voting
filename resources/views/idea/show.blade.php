@@ -14,6 +14,10 @@
         <livewire:edit-idea :idea="$idea" />
     @endcan
 
+    @can('delete', $idea)
+        <livewire:delete-idea :idea="$idea" />
+    @endcan
+
     <div class="comments-container relative space-y-6 md:ml-22 my-8 mt-1 pt-5">
         <div class="comment-container relative mt-4  bg-white rounded-xl flex ">
             <div class="flex flex-col md:flex-row flex-1 px-4 py-6">
