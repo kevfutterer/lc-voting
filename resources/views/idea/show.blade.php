@@ -10,6 +10,8 @@
 
     <livewire:idea-show :idea="$idea" :votesCount="$votesCount" />
 
+    <x-notification-success />
+    
     @can('update', $idea)
         <livewire:edit-idea :idea="$idea" />
     @endcan
