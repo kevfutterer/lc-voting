@@ -1,10 +1,26 @@
 <div 
     x-data="{ isOpen: false }" 
     class="relative"
-    x-init="$wire.on('commentWasAdded', () => {isOpen = false})"
+    x-init="
+        $wire.on('commentWasAdded', () => {
+            isOpen = false
+        })
+        {{-- Livewire.hook('message.processed', (message, component) => {
+            if (message.updateQueue[0].payload.event === 'commentWasAdded'
+                && message.component.fingerprint.name === 'idea-comments') {
+                const lastComment = document.querySelector('.comment-container:last-child')
+                lastComment.scrollIntoView({ behavior: 'smooth'})
+            }
+        }) --}}
+        "
     >
     <button type="button"
-        @click="isOpen = !isOpen"
+        @click="
+            isOpen = !isOpen
+            if(isOpen) {
+                $nextTick(() => $refs.comment.focus())
+            }
+            "
         class="flex items-center text-sm justify-center h-11 w-32 bg-blue font-semibold rounded-full border text-white border-blue hover:bg-blue-hover transition duration-150 ease-in px-2 py-2" >
         <span class="ml-1">Reply</span>
     </button>
@@ -17,7 +33,7 @@
         @auth
             <form wire:submit.prevent="addComment" action="#" class="space-y-4 px-4 py-6">
                 <div>
-                    <textarea wire:model="comment" name="post_comment" id="post_comment" cols="30" rows="4" 
+                    <textarea x-ref="comment" wire:model="comment" name="post_comment" id="post_comment" cols="30" rows="4" 
                     class="w-full text-sm bg-gray-100 rounded-xl placeholder-gray-900 border-none px-4 py-2" 
                     placeholder="Go ahead, dont't be shy. Share your thoughts... " required></textarea>
                     @error('comment')
