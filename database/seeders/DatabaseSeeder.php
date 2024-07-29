@@ -7,6 +7,7 @@ use App\Models\Idea;
 use App\Models\User;
 use App\Models\Vote;
 use App\Models\Status;
+use App\Models\Comment;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 
@@ -45,6 +46,10 @@ class DatabaseSeeder extends Seeder
                     ]);
                 };
             }
+        }
+
+        foreach (Idea::all() as $idea) {
+            Comment::factory(5)->existing()->create(['idea_id' => $idea->id]);
         }
 
 
