@@ -12,7 +12,13 @@ class IdeaComments extends Component
     use WithPagination;
 
     public $idea;
-    protected $listeners = ['commentWasAdded'];
+    protected $listeners = ['commentWasAdded', 'commentWasDeleted'];
+
+    public function commentWasDeleted()
+    {
+        $this->idea->refresh();
+        // $this->gotoPage(1);
+    }
 
     public function commentWasAdded()
     {

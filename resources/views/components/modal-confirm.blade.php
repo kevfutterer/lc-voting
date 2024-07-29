@@ -1,19 +1,39 @@
 @props([
-    'event-to-open-modal',
-    'event-to-close-modal',
-    'modal-title',
-    'modal-description',
-    'modal-confirm-button-text',
-    'wire-click'
+    'eventToOpenModal' => null,
+    'livewireEventToOpenModal' => null,
+    'eventToCloseModal',
+    'modalTitle',
+    'modalDescription',
+    'modalConfirmButtonText',
+    'wireClick',
+    // 'event-to-open-modal' => null,
+    // 'livewire-event-to-open-modal' => null,
+    // 'event-to-close-modal',
+    // 'modal-title',
+    // 'modal-description',
+    // 'modal-confirm-button-text',
+    // 'wire-click'
 ])
 
 <div 
     x-cloak
     x-data="{isOpen: false}"
     x-show = "isOpen"
-    {{ '@' . $eventToOpenModal}}.window = "isOpen = true"
+    @if (! $livewireEventToOpenModal)
+        {{ '@' . $eventToOpenModal}}.window = "isOpen = true"
+    @endif
     @keydown.escape.window = "isOpen = false"
-    x-init="$wire.on('{{ $eventToCloseModal}}', () => {isOpen = false})"
+    x-init="
+        $wire.on('{{ $eventToCloseModal}}', () => {
+            isOpen = false
+        })
+        @if ($livewireEventToOpenModal) {
+            $wire.on('{{ $livewireEventToOpenModal}}', () => {
+                isOpen = true
+            })
+        }
+        @endif
+        "
     class="relative z-20" 
     aria-labelledby="modal-title" 
     role="dialog" aria-modal="true">
