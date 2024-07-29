@@ -26,25 +26,25 @@
                             </div>
                             <div>
                                 <label class="flex items-center">
-                                    <input type="radio" wire:model="status" id="radio-1" checked="" class="bg-gray-200 text-blue border-none" value="2" name="radio-direct">
+                                    <input type="radio" wire:model="status" id="radio-2" checked="" class="bg-gray-200 text-blue border-none" value="2" name="radio-direct">
                                     <span class="ml-2">Considering</span>
                                 </label>
                             </div>
                             <div>
                                 <label class="flex items-center">
-                                    <input type="radio" wire:model="status" id="radio-1" checked="" class="bg-gray-200 text-yellow border-none" value="3" name="radio-direct">
+                                    <input type="radio" wire:model="status" id="radio-3" checked="" class="bg-gray-200 text-yellow border-none" value="3" name="radio-direct">
                                     <span class="ml-2">In Progess</span>
                                 </label>
                             </div>
                             <div>
                                 <label class="flex items-center">
-                                    <input type="radio" wire:model="status" id="radio-1" checked="" class="bg-gray-200 text-green border-none" value="4" name="radio-direct">
+                                    <input type="radio" wire:model="status" id="radio-4" checked="" class="bg-gray-200 text-green border-none" value="4" name="radio-direct">
                                     <span class="ml-2">Implemented</span>
                                 </label>
                             </div>
                             <div>
                                 <label class="flex items-center">
-                                    <input type="radio" wire:model="status" id="radio-1" checked="" class="bg-gray-200 text-red border-none" value="5" name="radio-direct">
+                                    <input type="radio" wire:model="status" id="radio-5" checked="" class="bg-gray-200 text-red border-none" value="5" name="radio-direct">
                                     <span class="ml-2">Closed</span>
                                 </label>
                             </div>
