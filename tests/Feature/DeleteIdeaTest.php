@@ -129,27 +129,6 @@ class DeleteIdeaTest extends TestCase
         $this->assertEquals(0, Idea::count());
         $this->assertEquals(0, Comment::count());
         
-        
-        // $user = User::factory()->create();
-
-        // $idea = Idea::factory()->create([
-        //     'user_id' => $user->id,
-        // ]);
-
-        // Comment::factory()->create([
-        //     'idea_id' => $idea->id,
-        // ]);
-
-        // Livewire::actingAs($user)
-        //     ->test(DeleteIdea::class, [
-        //         'idea' => $idea,
-        //     ])
-        //     ->call('deleteIdea')
-        //     ->assertRedirect(route('idea.index'));
-
-        // // $this->assertEquals(0, Idea::count());
-        // $this->assertEquals(0, Comment::count());
-    
     }
 
     public function test_deleting_an_idea_shows_on_menu_when_user_has_authorization(): void
