@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('idea_id')->constrained();
             $table->text('body');
             $table->timestamps();
-            
+            $table->integer('spam_reports')->default(0);
         });
     }
 
