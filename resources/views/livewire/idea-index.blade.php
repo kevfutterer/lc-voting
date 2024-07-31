@@ -47,7 +47,7 @@
                             @endadmin
                             {{ $idea->description}}
                         </div>
-                        <div class="flex flex-col md:flex-row md:items-center justify-between mt-6">
+                        <div wire:ignore class="flex flex-col md:flex-row md:items-center justify-between mt-6">
                             <div class="flex items-center text-xs font-semibold space-x-2 text-gray-400">
                                 <div>{{$idea->created_at->diffForHumans()}} </div>
                                 <div>&bull;</div>
@@ -59,7 +59,7 @@
                                 class="flex items-center space-x-2 mt-4 md:mt-0"
                                 x-data="{ isOpen: false }"
                                 >
-                                <div class="{{$idea->status->classes}} text-xs font-bold uppercase leading-none rounded-full text-center w-28 h-7 py-2 px-4">{{$idea->status->name}} </div>
+                                <div class="{{'status-'. Str::kebab($idea->status->name)}} text-xs font-bold uppercase leading-none rounded-full text-center w-28 h-7 py-2 px-4">{{$idea->status->name}} </div>
                             </div>
 
                             <div class="flex items-center md:hidden mt-4 md:mt-0">

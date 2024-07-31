@@ -1,9 +1,13 @@
-<div class="comment-container relative mt-4  bg-white rounded-xl flex ">
+<div 
+    class=" @if($comment->is_status_update) is-status-update {{'status-'. Str::kebab($comment->status->name)}} @endif comment-container relative mt-4 bg-white rounded-xl flex ">
     <div class="flex flex-col md:flex-row flex-1 px-4 py-6">
         <div class="flex-none">
             <a href="" >
                 <img src="{{$comment->user->getAvatar()}}" alt="avatar" class="w-14 h-14 rounded-xl">
             </a>
+            @if ($comment->user->id === $comment->idea->user->id)
+                <div class="text-center uppercase text-blue text-xs font-bold mt-1">Owner</div>
+            @endif
         </div>
         <div class="md:mx-4 w-full">
             <div class="text-gray-600">
@@ -12,11 +16,18 @@
                         <div class="text-red mb-2">Spam Reports: {{$comment->spam_reports}} </div>
                     @endif
                 @endadmin
-                {{$comment->body}}
+                @if ($comment->is_status_update)
+                    <h4 class="text-xl font-semibold mb-3">
+                        Status changed to "{{$comment->status->name}}"
+                    </h4>
+                @endif
+                <div>
+                    {{$comment->body}}
+                </div>
             </div>
             <div class="flex items-center justify-between mt-6">
                 <div class="flex items-center text-xs font-semibold space-x-2 text-gray-400">
-                    <div class="font-bold text-gray-900">{{$comment->user->name}} </div>
+                    <div class=" {{ $comment->user->id === $comment->idea->user->id ? 'text-blue' : 'text-gray-900'}} font-bold">{{$comment->user->name}} </div>
                     <div>&bull;</div>
                     @if ($comment->user->id === $ideaUserId)
                         <div LLclass="rounded-full border bg-gra-100 px-3 py-1">OP</div>
@@ -39,7 +50,7 @@
                                 x-show.transition.origin.top.left = "isOpen"
                                 @click.away = "isOpen = false"
                                 @keydown.excape.window="isOpen = false"
-                                class="z-10 text-left absolute w-44 font-semibold bg-white shadow-dialog rounded-xl py-3 md:ml-8 top-8 md:top-6 right-0 md:left-0 z-10"
+                                class="z-10 text-left text-gray-900 absolute w-44 font-semibold bg-white shadow-dialog rounded-xl py-3 md:ml-8 top-8 md:top-6 right-0 md:left-0 z-10"
                                 >
                                 @can('update', $comment)
                                     <li>
