@@ -23,15 +23,10 @@ class EditComment extends Component
         $this->body = $this->comment->body;
 
         $this->dispatch('editCommentWasSet');
-
     }
 
     public function updateComment()
     {
-        // if (auth()->guest() || auth()->user()->cannot('update', $this->comment)) {
-        //     abort(Response::HTTP_FORBIDDEN);
-        // }
-
         if (auth()->guest()) {
             abort(Response::HTTP_FORBIDDEN);
         }
@@ -44,7 +39,6 @@ class EditComment extends Component
         $this->comment->save();
 
         $this->dispatch('commentWasUpdated');
-
     }
 
     public function render()

@@ -33,7 +33,6 @@ class DeleteComment extends Component
         $this->comment = Comment::make();
 
         $this->dispatch('commentWasDeleted');
-
     }
     
     public function render()
