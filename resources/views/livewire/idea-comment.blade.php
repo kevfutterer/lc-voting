@@ -68,17 +68,32 @@
                                         </a>
                                     </li>
                                 @endcan
-                                    <li>
-                                        <a 
-                                            href="" 
-                                            @click.prevent = "
-                                                isOpen = false
-                                                Livewire.dispatch('setMarkAsSpamComment', {commentId: {{$comment->id}}} )
-                                                "
-                                            class="hover:bg-gray-100 block px-5 py-3 transition duration-150 ease-in">
-                                            Mark as Spam
-                                        </a>
-                                    </li>
+                                <li>
+                                    <a 
+                                        href="" 
+                                        @click.prevent = "
+                                            isOpen = false
+                                            Livewire.dispatch('setMarkAsSpamComment', {commentId: {{$comment->id}}} )
+                                            "
+                                        class="hover:bg-gray-100 block px-5 py-3 transition duration-150 ease-in">
+                                        Mark as Spam
+                                    </a>
+                                </li>
+                                @admin
+                                    @if ($comment->spam_reports > 0)
+                                        <li>
+                                            <a 
+                                                href="" 
+                                                @click.prevent = "
+                                                    isOpen = false
+                                                    Livewire.dispatch('setNotAsSpamComment', {commentId: {{$comment->id}}} )
+                                                    "
+                                                class="hover:bg-gray-100 block px-5 py-3 transition duration-150 ease-in">
+                                                Not Spam
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endadmin
                             </ul>
                         </div>
                     </div>

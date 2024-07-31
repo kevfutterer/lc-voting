@@ -42,4 +42,8 @@
         <livewire:mark-comment-as-spam />
     @endauth
 
+    @admin
+        <livewire:mark-comment-not-as-spam />
+    @endadmin
+
 </x-app-layout>
