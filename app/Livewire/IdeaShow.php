@@ -10,13 +10,26 @@ class IdeaShow extends Component
     public $idea;
     public $votesCount;
     public $hasVoted;
-    protected $listeners = ['statusWasUpdated', 'ideaWasUpdated', 'ideaWasMarkedAsNotSpam', 'ideaWasMarkedAsSpam', 'commentWasAdded', 'commentWasDeleted'];
+    protected $listeners = [
+        'statusWasUpdated', 
+        'ideaWasUpdated', 
+        'ideaWasMarkedAsNotSpam', 
+        'ideaWasMarkedAsSpam', 
+        'commentWasAdded', 
+        'commentWasDeleted',
+        'statusWasUpdatedError',
+    ];
 
     public function mount(Idea $idea, $votesCount)
     {
         $this->idea = $idea;
         $this->votesCount = $votesCount;
         $this->hasVoted = $idea->isVotedByUser(auth()->user());
+    }
+
+    public function statusWasUpdatedError()
+    {
+        $this->idea->refresh();
     }
 
     public function commentWasDeleted()

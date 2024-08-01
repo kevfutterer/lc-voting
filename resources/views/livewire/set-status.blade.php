@@ -1,6 +1,9 @@
             <div 
                 x-data="{ isOpen: false }"
-                x-init="$wire.on('statusWasUpdated', () => {isOpen = false})"
+                x-init="
+                    $wire.on('statusWasUpdated', () => {isOpen = false})
+                    $wire.on('statusWasUpdatedError', () => {isOpen = false})
+                    "
                 class="relative">
                 <button type="button"
                     @click="isOpen = !isOpen"
