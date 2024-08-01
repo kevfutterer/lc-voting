@@ -51,7 +51,8 @@ class IdeasIndex extends Component
     public function updatedFilter()
     {
         if ($this->filter == 'My Ideas') {
-            if (! auth()->check()) {
+            if(auth()->guest()) {
+                redirect()->setIntendedUrl(url()->previous());
                 return redirect()->route('login');
             }
         }

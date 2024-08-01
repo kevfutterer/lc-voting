@@ -45,6 +45,21 @@ class AddComment extends Component
 
     }
 
+    public function redirectToLogin()
+    {
+        if(auth()->guest()) {
+            redirect()->setIntendedUrl(url()->previous());
+            return redirect()->route('login');
+        }
+    }
+
+    public function redirectToRegister()
+    {
+        redirect()->setIntendedUrl(url()->previous());
+
+        return redirect()->route('register');
+    }
+
     public function render()
     {
         return view('livewire.add-comment');

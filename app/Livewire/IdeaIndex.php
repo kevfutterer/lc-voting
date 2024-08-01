@@ -20,8 +20,9 @@ class IdeaIndex extends Component
 
     public function vote()
     {
-        if(! auth()->check()) {
-            return redirect(route('login'));
+        if(auth()->guest()) {
+            redirect()->setIntendedUrl(url()->previous());
+            return redirect()->route('login');
         }
 
         if ($this->hasVoted) {

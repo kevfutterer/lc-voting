@@ -43,4 +43,19 @@ class CreateIdea extends Component
         }
         abort(Response::HTTP_FORBIDDEN);
     }
+
+    public function redirectToLogin()
+    {
+        if(auth()->guest()) {
+            redirect()->setIntendedUrl(url()->previous());
+            return redirect()->route('login');
+        }
+    }
+
+    public function redirectToRegister()
+    {
+        redirect()->setIntendedUrl(url()->previous());
+
+        return redirect()->route('register');
+    }
 }

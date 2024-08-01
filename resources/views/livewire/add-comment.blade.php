@@ -78,8 +78,16 @@
             <div class="px-4 py-6">
                 <p class="font-normal">Please login or create an account to post a comment</p>
                 <div class="flex items-center space-x-3 mt-8">
-                    <a href="{{ route('login')}}" class="w-1/2 h-11 text-sm text-center bg-blue text-white font-seimbold rounded-full hover:bg-blue-hover transition duration-150 ease-in px-6 py-3">Login</a>
-                    <a href="{{ route('register')}}" class="w-1/2 h-11 text-sm text-center bg-gray-200 font-seimbold rounded-full border border-gray-200 hover:bg-gray-400 transition duration-150 ease-in px-6 py-3">Register</a>
+                    <a 
+                        wire:click.prevent="redirectToLogin"
+                        class="w-1/2 h-11 text-sm text-center bg-blue text-white font-seimbold rounded-full hover:bg-blue-hover transition duration-150 ease-in px-6 py-3">
+                        Login
+                    </a>
+                    <a 
+                        wire:click.prevent="redirectToRegister"
+                        class="w-1/2 h-11 text-sm text-center bg-gray-200 font-seimbold rounded-full border border-gray-200 hover:bg-gray-400 transition duration-150 ease-in px-6 py-3">
+                        Register
+                    </a>
                 </div>
             </div>
         @endauth

@@ -43,10 +43,11 @@
                         @endauth
                     </div>
                 @endif
-                <a href="">
-                    <img src="https://image.tmdb.org/t/p/w235_and_h235_face/p17ymzw1sb9eo2SOp88jnwyryan.jpg" alt="avatar"
-                    class="w-10 h-10 rounded-full">
-                </a>
+                @auth
+                    <a href="#">
+                        <img src="{{ auth()->user()->getAvatar() }}" alt="avatar" class="w-10 h-10 rounded-full">
+                    </a>
+                @endauth
             </div>
         </header>
 
@@ -63,20 +64,7 @@
                             @endauth
                         </a>
                     </div>
-                    @auth
-                        <livewire:create-idea />
-                    @else
-                        <div class="my-6 text-center">
-                            <a href="{{ route('login')}}" type="submit"
-                                class="inline-block justify-center w-1/2 h-11 text-xs bg-blue font-semibold rounded-full border text-white border-blue hover:bg-blue-hover transition duration-150 ease-in px-6 py-3" >
-                                Login
-                            </a>
-                            <a href="{{ route('register')}}" type="button"
-                                class="inline-block justify-center w-1/2 h-11 text-xs bg-gray-200 font-semibold rounded-full border border-gray-200 hover:border-gray-400 transition duration-150 ease-in px-6 py-3 mt-4" >
-                                Sign Up
-                            </a>
-                        </div>
-                    @endauth
+                    <livewire:create-idea />
                 </div>
             </div>
             <div class="w-full px-2 md:px-0 md:w-175">
