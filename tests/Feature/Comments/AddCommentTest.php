@@ -2,14 +2,16 @@
 
 namespace Tests\Feature\Comments;
 
-use App\Livewire\AddComment;
 use Tests\TestCase;
 use App\Models\Idea;
 use App\Models\User;
-use App\Models\Comment;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
+use App\Models\Comment;
+use App\Livewire\AddComment;
+use App\Notifications\CommentAdded;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AddCommentTest extends TestCase
 {
@@ -64,8 +66,11 @@ class AddCommentTest extends TestCase
     public function test_add_comment_form_works(): void
     {
         $user = User::factory()->create();
-
         $idea = Idea::factory()->create();
+
+        Notification::fake();
+
+        Notification::assertNothgingSent();
 
         Livewire::actingAs($user)
             ->test(AddComment::class, [
@@ -74,6 +79,11 @@ class AddCommentTest extends TestCase
             ->set('comment', 'This is my first comment')
             ->call('addComment')
             ->assertDispatched('commentWasAdded');
+
+        Notification::assertSentTo(
+            [$idea->user],
+            CommentAdded::class
+        );
         
         $this->assertEquals(1, Comment::count());
     }
